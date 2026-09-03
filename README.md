@@ -43,15 +43,23 @@ outright.
 
 ## Installing the models
 
-From a pz-godot checkout:
+Download this repository's [`install/`](install/) folder and either drag your
+pz-godot folder onto `install-models.bat`, or run it with the path:
 
-```bash
-tools/install_models.bat
+```
+install-models.bat C:\path	o\pz-godot
 ```
 
-It downloads only what changed, verifies each file against the SHA-256 in
-`index.json` before writing it, and merges the `by_type` entries into your
-`data/mesh_overrides.json` without touching anything you authored by hand.
+Dropping the whole `install/` folder inside a pz-godot checkout also works — it
+finds the checkout on its own.
+
+pz-godot also ships its own copy as `tools/install_models.bat`, which needs no
+arguments. Use that one if you have the game repo cloned.
+
+Either way it downloads only what changed, verifies each file against the
+SHA-256 in `index.json` before writing it, and merges the `by_type` entries into
+your `data/mesh_overrides.json` without touching anything you authored by hand.
+`--prune` undoes the lot, restoring any model or rule of your own it displaced.
 
 If a model binds to a sprite your own export doesn't have, the installer says so
 and the model renders in its fallback colour rather than failing.

@@ -1,19 +1,24 @@
 # install/
 
-`pz_models_install.py` is a copy of pz-godot's own `tools/install_models.py`,
-for anyone who wants to install the models without cloning the game repo's
-tooling.
+Installs the community models into a pz-godot checkout, for anyone who wants
+them without cloning the game repo's tooling.
 
-**If you have a pz-godot checkout, use the copy in it instead** — run
-`tools\install_models.bat`. That one is the original; this is a convenience
-mirror and can lag behind it.
+`install-models.bat` is the way in on Windows. Three ways to use it:
 
-Run this copy against a checkout explicitly, since it cannot find one by walking
-up from wherever you saved it:
+1. **Drag your pz-godot folder onto `install-models.bat`.**
+2. Run it with the path: `install-models.bat C:\path\to\pz-godot`
+3. Drop this whole `install/` folder inside a pz-godot checkout and
+   double-click — it finds the checkout by walking up from where it sits.
+
+Or call the script directly, on any platform:
 
 ```
-python pz_models_install.py --repo-root C:\path\to\pz-godot
+python pz_models_install.py --repo-root /path/to/pz-godot
 ```
+
+**If you have a pz-godot checkout, its own `tools/install_models.bat` is the
+better entry point** — it needs no path at all. That copy is the original;
+`pz_models_install.py` here is a convenience mirror and can lag behind it.
 
 `--dry-run` says what it would change without writing, `--list` shows what is
 published, and `--prune` removes what it installed — putting back any model and
