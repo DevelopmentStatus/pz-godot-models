@@ -1,0 +1,53 @@
+name: validate
+
+# The Discord bot is meant to be the only writer here, so in the normal case
+# this has nothing to catch. That is exactly why it runs: "only the bot writes"
+# is an assumption. A hand-edited entry, a half-applied commit, a restored
+# backup or an outside pull request would each break invariants that nothing
+# else would notice until a player's install came out wrong -- and in the case
+# of an embedded texture, until somebody's art was being redistributed.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # No pip install step on purpose: the checks are stdlib-only so they run
+      # anywhere, including on a contributor's machine with no network.
+      - name: No game art in any model
+        run: |
+          shopt -s nullglob
+          models=(models/*.glb)
+          if [ ${#models[@]} -eq 0 ]; then
+            echo "No models yet; nothing to check."
+          else
+            python tools/glb_check.py --catalog catalog/sprites.json "${models[@]}"
+          fi
+
+      - name: Repository is self-consistent
+        run: python tools/validate_repo.py --root .
+
+      - name: Nothing lives outside the layout
+        run: |
+          # A .glb anywhere but models/ is either a mistake or someone routing
+          # around the checks above, which only look at models/.
+          stray=$(find . -name '*.glb' -not -path './models/*' -not -path './.git/*')
+          if [ -n "$stray" ]; then
+            echo "Models must live in models/ so they are covered by the checks:"
+            echo "$stray"
+            exit 1
+          fi

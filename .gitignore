@@ -1,0 +1,11 @@
+# Nothing here is built locally; the bot writes this repo. Keep the usual noise
+# out anyway so a contributor poking around does not commit it by accident.
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Godot import sidecars. The models are read straight off disk by the game and
+# are never imported, so an .import file here means someone opened this folder
+# as a Godot project by mistake.
+*.import

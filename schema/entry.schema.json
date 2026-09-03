@@ -1,0 +1,118 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/DevelopmentStatus/pz-godot-models/blob/main/schema/entry.schema.json",
+	"title": "pz-godot community model entry",
+	"description": "One sprite's current model and every version it has ever had. Written only by the Discord bot; history is append-only.",
+	"type": "object",
+	"required": ["sprite_id", "sheet", "current", "history"],
+	"additionalProperties": false,
+	"properties": {
+		"sprite_id": {
+			"type": "string",
+			"description": "The PZ sprite this model replaces. Must exist in catalog/sprites.json.",
+			"pattern": "^[a-z0-9_]+$"
+		},
+		"sheet": {
+			"type": "string",
+			"description": "sprite_id minus its trailing _N, matching MeshOverrides.sheet_of().",
+			"pattern": "^[a-z0-9_]+$"
+		},
+		"current": { "$ref": "#/$defs/version" },
+		"history": {
+			"type": "array",
+			"description": "Superseded versions, newest first. Append-only: a revert re-publishes an old blob as a new version rather than rewriting this.",
+			"items": { "$ref": "#/$defs/version" }
+		}
+	},
+	"$defs": {
+		"version": {
+			"type": "object",
+			"required": ["version", "blob_sha", "sha256", "size", "author", "license", "texture_bindings", "embedded_textures", "override", "approved_by", "approved_at"],
+			"additionalProperties": false,
+			"properties": {
+				"version": {
+					"type": "integer",
+					"minimum": 1,
+					"description": "Monotonic per sprite. Never reused, even after a revert."
+				},
+				"blob_sha": {
+					"type": "string",
+					"pattern": "^[0-9a-f]{40}$",
+					"description": "Git blob SHA-1 of this version's .glb. This is the durable pointer: blobs reachable from history are never garbage-collected, so any past version stays fetchable via the git blobs API long after models/<sprite_id>.glb has moved on."
+				},
+				"commit_sha": {
+					"type": ["string", "null"],
+					"pattern": "^[0-9a-f]{40}$",
+					"description": "The commit that introduced this version. Null for the current version, which cannot know its own commit's SHA at the time it is written; filled in when the version is superseded."
+				},
+				"sha256": {
+					"type": "string",
+					"pattern": "^[0-9a-f]{64}$",
+					"description": "Content hash of the .glb. What the installer verifies against before writing a downloaded file to disk."
+				},
+				"size": { "type": "integer", "minimum": 1 },
+				"author": {
+					"type": "object",
+					"required": ["discord_id", "discord_name"],
+					"additionalProperties": false,
+					"properties": {
+						"discord_id": { "type": "string", "pattern": "^[0-9]{15,25}$" },
+						"discord_name": { "type": "string" },
+						"github": { "type": ["string", "null"] }
+					}
+				},
+				"license": {
+					"type": "string",
+					"enum": ["CC0-1.0", "CC-BY-4.0", "MIT"],
+					"description": "Chosen by the author at submission. Covers the model only, never the PZ art it is textured from at runtime."
+				},
+				"texture_bindings": {
+					"type": "array",
+					"description": "Sprite ids this model's pz: materials name. Derived from the .glb at validation time, never author-declared, so it cannot disagree with the file.",
+					"items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+					"uniqueItems": true
+				},
+				"embedded_textures": {
+					"type": "boolean",
+					"description": "Almost always false. True only where an admin signed off on an author's own original texture; see textures_approved_by."
+				},
+				"textures_approved_by": {
+					"type": ["string", "null"],
+					"description": "Discord id of the admin who admitted an embedded texture, and null otherwise."
+				},
+				"textures_approval_reason": { "type": ["string", "null"] },
+				"override": {
+					"type": "object",
+					"description": "The by_type calibration written into the player's data/mesh_overrides.json. Rotation is Y degrees and is ADDITIVE to each instance's own PZ yaw.",
+					"required": ["offset", "rotation", "scale"],
+					"additionalProperties": false,
+					"properties": {
+						"offset": {
+							"type": "array",
+							"items": { "type": "number" },
+							"minItems": 3,
+							"maxItems": 3
+						},
+						"rotation": { "type": "number" },
+						"scale": { "type": "number", "exclusiveMinimum": 0 }
+					}
+				},
+				"approved_by": { "type": "string", "pattern": "^[0-9]{15,25}$" },
+				"approved_at": { "type": "string", "format": "date-time" },
+				"superseded_at": { "type": ["string", "null"], "format": "date-time" },
+				"replaced_by_vote": {
+					"type": ["object", "null"],
+					"description": "Present on a version that lost a head-to-head community vote.",
+					"required": ["challenge_id", "keep", "replace"],
+					"additionalProperties": false,
+					"properties": {
+						"challenge_id": { "type": "integer" },
+						"keep": { "type": "integer", "minimum": 0 },
+						"replace": { "type": "integer", "minimum": 0 }
+					}
+				},
+				"note": { "type": ["string", "null"] }
+			}
+		}
+	}
+}

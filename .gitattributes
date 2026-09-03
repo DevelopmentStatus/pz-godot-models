@@ -1,0 +1,10 @@
+# The bot writes this repo through the GitHub API, which commits exactly the
+# bytes it sends -- always LF. Without this, a clone on Windows would check
+# files out as CRLF and every local diff would show whole-file churn against
+# what the bot actually stored.
+* text=auto eol=lf
+
+# Models are binary. Never touch their bytes: index.json carries a SHA-256 of
+# each one and the installer refuses a file whose hash does not match, so a
+# single "helpful" line-ending rewrite would break every install.
+*.glb binary
