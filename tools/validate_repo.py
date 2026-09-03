@@ -113,6 +113,16 @@ def _check_version_shape(version, report, where):
     return True
 
 
+def _is_housekeeping(name):
+    """Files that are allowed to sit alongside the data without being data.
+
+    Dotfiles, and the README each of those folders carries explaining that the
+    bot owns it. Anything else is either a stray or something routing around the
+    checks, and is worth failing on.
+    """
+    return name.startswith(".") or name == "README.md"
+
+
 def _is_hex(value, length):
     if not isinstance(value, str) or len(value) != length:
         return False
@@ -260,14 +270,14 @@ def validate(root):
         for name in sorted(os.listdir(models_dir)):
             if name.endswith(".glb"):
                 model_ids.add(name[:-4])
-            elif not name.startswith("."):
+            elif not _is_housekeeping(name):
                 report.error("models/%s" % name, "only .glb files belong here")
 
     entries = {}
     if os.path.isdir(entries_dir):
         for name in sorted(os.listdir(entries_dir)):
             if not name.endswith(".json"):
-                if not name.startswith("."):
+                if not _is_housekeeping(name):
                     report.error("entries/%s" % name, "only .json files belong here")
                 continue
             sprite_id = name[:-5]
