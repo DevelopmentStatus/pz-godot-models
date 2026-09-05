@@ -1,7 +1,26 @@
 {
 	"schema": 1,
 	"repo": "DevelopmentStatus/pz-godot-models",
-	"generated_at": null,
-	"count": 0,
-	"models": {}
+	"generated_at": "2026-09-05T05:29:09.534Z",
+	"count": 1,
+	"models": {
+		"fixtures_counters_01_67": {
+			"version": 1,
+			"path": "models/fixtures_counters_01_67.glb",
+			"sha256": "55fd1d39add5ce30b85719c275a0bebcf977de04fe63b029e72fe8659a657e41",
+			"size": 2672,
+			"offset": [
+				0,
+				0,
+				0
+			],
+			"rotation": 0,
+			"scale": 1,
+			"license": "MIT",
+			"texture_bindings": [
+				"fixtures_counters_01_67"
+			],
+			"author": "albinomonkey69"
+		}
+	}
 }

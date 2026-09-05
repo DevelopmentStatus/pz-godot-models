@@ -1,0 +1,38 @@
+{
+	"sprite_id": "fixtures_counters_01_67",
+	"sheet": "fixtures_counters_01",
+	"current": {
+		"version": 1,
+		"blob_sha": "b439df29820ae75a4941e92e4a552d0c77c47928",
+		"commit_sha": null,
+		"sha256": "55fd1d39add5ce30b85719c275a0bebcf977de04fe63b029e72fe8659a657e41",
+		"size": 2672,
+		"author": {
+			"discord_id": "135803296429375489",
+			"discord_name": "albinomonkey69",
+			"github": null
+		},
+		"license": "MIT",
+		"texture_bindings": [
+			"fixtures_counters_01_67"
+		],
+		"embedded_textures": false,
+		"textures_approved_by": null,
+		"textures_approval_reason": null,
+		"override": {
+			"offset": [
+				0,
+				0,
+				0
+			],
+			"rotation": 0,
+			"scale": 1
+		},
+		"approved_by": "135803296429375489",
+		"approved_at": "2026-09-05T05:29:09.173Z",
+		"superseded_at": null,
+		"replaced_by_vote": null,
+		"note": "first"
+	},
+	"history": []
+}
