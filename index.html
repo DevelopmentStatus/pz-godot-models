@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pz-godot models</title>
+<meta name="description" content="Community-made 3D models replacing Project Zomboid's isometric sprites in pz-godot. Browse them in 3D, then install them.">
+<meta name="theme-color" content="#d99f4c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="pz-godot models">
+<meta property="og:title" content="pz-godot community model database">
+<meta property="og:description" content="Browse the community's 3D replacements for Project Zomboid sprites, and install them into pz-godot.">
+<meta property="og:url" content="https://developmentstatus.github.io/pz-godot-models/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 28 9.5v13L16 29 4 22.5v-13z' fill='none' stroke='%23d99f4c' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M4 9.5 16 16l12-6.5M16 16v13' fill='none' stroke='%23d99f4c' stroke-width='2.5' stroke-linejoin='round' opacity='.65'/%3E%3C/svg%3E">
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg:      #14161a;
+  --panel:   #1a1d23;
+  --panel-2: #21252d;
+  --line:    #2b3038;
+  --line-2:  #3a4150;
+  --text:    #e7e9ee;
+  --muted:   #8b93a3;
+  --accent:  #d99f4c;
+  --accent-soft: rgba(217,159,76,.13);
+  --header-h: 57px;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, kbd, .mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+a { color: var(--accent); }
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+  background: rgba(20,22,26,.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 650;
+  font-size: 15px;
+  letter-spacing: -.01em;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand svg { width: 22px; height: 22px; flex: none; }
+.brand .dim { color: var(--muted); font-weight: 400; }
+
+nav.tabs { display: flex; gap: 4px; margin-left: 4px; }
+
+.tab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  padding: 6px 13px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.tab:hover { color: var(--text); background: var(--panel-2); }
+.tab[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(217,159,76,.28);
+}
+
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* --------------------------------------------------------------- buttons */
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line-2);
+  background: var(--panel-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { border-color: #4c5566; background: #272c35; }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1b1408;
+  font-weight: 600;
+}
+.btn.primary:hover { background: #e8ae5e; border-color: #e8ae5e; }
+.btn.quiet { background: none; border-color: var(--line); color: var(--muted); }
+.btn.quiet:hover { color: var(--text); border-color: var(--line-2); background: var(--panel-2); }
+.btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.btn.small { padding: 5px 10px; font-size: 13px; }
+
+/* ----------------------------------------------------------------- views */
+
+.view { display: none; }
+.view.active { display: block; }
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 30px 22px 70px;
+}
+.wrap.narrow { max-width: 780px; }
+
+.page-head { margin-bottom: 22px; }
+.page-head h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -.02em;
+  word-break: break-all;
+}
+.page-head p { margin: 0; color: var(--muted); }
+
+/* ------------------------------------------------------------ model grid */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.search {
+  flex: 1 1 240px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 12px;
+}
+.search:focus-within { border-color: var(--line-2); }
+.search svg { width: 15px; height: 15px; color: var(--muted); flex: none; }
+.search input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 0;
+}
+.search input::placeholder { color: var(--muted); }
+
+.count { color: var(--muted); font-size: 13px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  appearance: none;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover { border-color: var(--line-2); background: var(--panel-2); }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.card .thumb {
+  aspect-ratio: 4 / 3;
+  background: #101216;
+  border-bottom: 1px solid var(--line);
+}
+.card model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+
+.card .meta { padding: 10px 12px 12px; }
+.card .name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  word-break: break-all;
+  margin-bottom: 5px;
+}
+.card .sub { color: var(--muted); font-size: 12px; }
+
+.more { display: flex; justify-content: center; margin-top: 24px; }
+
+/* ----------------------------------------------------------- empty state */
+
+.empty {
+  border: 1px dashed var(--line-2);
+  border-radius: 12px;
+  padding: 54px 28px;
+  text-align: center;
+  background: var(--panel);
+}
+.empty svg { width: 40px; height: 40px; color: var(--line-2); margin-bottom: 14px; }
+.empty h2 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+.empty p { margin: 0 auto 20px; color: var(--muted); max-width: 46ch; }
+.empty .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* --------------------------------------------------------- model detail */
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 900px) { .detail { grid-template-columns: minmax(0, 1fr); } }
+
+.stage {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.stage model-viewer {
+  width: 100%;
+  height: min(62vh, 560px);
+  background: radial-gradient(ellipse at 50% 62%, #23272f 0%, #14161a 72%);
+  --poster-color: transparent;
+}
+.stage-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.pane-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: rgba(10,11,14,.72);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pane-label.a { color: #8fc8ff; }
+.pane-label.b { color: var(--accent); }
+
+.viewer-error {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  display: none;
+  background: #3a1e1e;
+  border: 1px solid #5c2c2c;
+  color: #ffc0bb;
+  padding: 8px 11px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.facts {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 4px 16px 16px;
+}
+.facts h2 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+.facts dl { margin: 0; font-size: 14px; }
+.facts .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.facts .row:last-child { border-bottom: 0; }
+.facts dt { color: var(--muted); flex: none; }
+.facts dd {
+  margin: 0;
+  text-align: right;
+  word-break: break-all;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+.facts .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.history { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+.history li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.history li:last-child { border-bottom: 0; }
+.history .when { color: var(--muted); }
+
+/* -------------------------------------------------------------- compare */
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 820px) { .compare { grid-template-columns: 1fr !important; } }
+.compare .stage model-viewer { height: min(56vh, 480px); }
+
+/* ------------------------------------------------------------- markdown */
+
+.md { font-size: 15.5px; }
+.md > :first-child { margin-top: 0; }
+.md h1, .md h2, .md h3 {
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  font-weight: 650;
+}
+.md h1 { font-size: 24px; margin: 34px 0 12px; }
+.md h2 {
+  font-size: 19px;
+  margin: 38px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.md h3 { font-size: 16px; margin: 28px 0 10px; }
+.md p, .md ul, .md ol { margin: 0 0 14px; }
+.md li { margin: 4px 0; }
+.md li > p { margin: 0 0 6px; }
+.md strong { color: #fff; }
+.md code {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: .88em;
+  word-break: break-word;
+}
+.md pre {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 13px 15px;
+  overflow-x: auto;
+  margin: 0 0 16px;
+}
+.md pre code { background: none; border: 0; padding: 0; font-size: 13px; }
+.md table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 18px;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+.md th, .md td {
+  border: 1px solid var(--line);
+  padding: 8px 11px;
+  text-align: left;
+  vertical-align: top;
+}
+.md th { background: var(--panel-2); font-weight: 600; }
+.md blockquote {
+  margin: 0 0 16px;
+  padding: 2px 0 2px 14px;
+  border-left: 3px solid var(--line-2);
+  color: var(--muted);
+}
+.md hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+
+/* --------------------------------------------------------------- notice */
+
+.notice {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 24px;
+}
+.notice p { margin: 0; }
+.notice p + p { margin-top: 8px; }
+.notice .head { font-weight: 600; margin-bottom: 4px; }
+
+.dl-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+
+.loading { color: var(--muted); padding: 40px 0; text-align: center; }
+
+/* --------------------------------------------------------------- footer */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 20px 22px 34px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.site-footer .inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--accent); }
+.site-footer .spacer { margin-left: auto; }
+
+@media (max-width: 620px) {
+  .site-header { gap: 10px; padding: 0 12px; }
+  .brand .dim { display: none; }
+  .tab { padding: 6px 9px; }
+  .header-right { display: none; }
+  .wrap { padding: 22px 14px 60px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#/models">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 3 28 9.5v13L16 29 4 22.5v-13z" fill="none" stroke="#d99f4c" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M4 9.5 16 16l12-6.5M16 16v13" fill="none" stroke="#d99f4c" stroke-width="2.5" stroke-linejoin="round" opacity=".65"/>
+    </svg>
+    pz-godot&nbsp;<span class="dim">models</span>
+  </a>
+
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab" data-route="models">Models</button>
+    <button class="tab" data-route="install">Install</button>
+    <button class="tab" data-route="readme">Readme</button>
+  </nav>
+
+  <div class="header-right">
+    <a class="btn small quiet" href="https://github.com/DevelopmentStatus/pz-godot-models" target="_blank" rel="noopener">GitHub &#8599;</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ------------------------------------------------------------ models -->
+  <section id="view-models" class="view">
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Community models</h1>
+        <p id="models-blurb">3D replacements for Project Zomboid sprites. Click one to look at it.</p>
+      </div>
+
+      <div class="toolbar" id="models-toolbar" hidden>
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="search" type="search" placeholder="Search by sprite or sheet, e.g. counters" autocomplete="off" spellcheck="false">
+        </label>
+        <span class="count" id="models-count"></span>
+      </div>
+
+      <div id="models-body"><div class="loading">Loading the database&hellip;</div></div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ model detail -->
+  <section id="view-model" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <button class="btn quiet small" data-route="models">&larr; All models</button>
+      </div>
+      <div id="model-body"><div class="loading">Loading&hellip;</div></div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- compare -->
+  <section id="view-compare" class="view">
+    <div class="wrap">
+      <div class="page-head" id="compare-head"></div>
+      <div class="toolbar">
+        <button class="btn small" id="cmp-link" aria-pressed="true">Linked cameras</button>
+        <button class="btn small" id="cmp-rotate" aria-pressed="false">Auto-rotate</button>
+        <button class="btn small" id="cmp-reset">Reset view</button>
+        <button class="btn quiet small" data-route="models">All models</button>
+      </div>
+      <div class="compare" id="compare-body"></div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- install -->
+  <section id="view-install" class="view">
+    <div class="wrap narrow">
+      <div class="page-head">
+        <h1>Install the models</h1>
+        <p>Windows, one double-click. Safe to re-run, and undoable.</p>
+      </div>
+
+      <div class="notice">
+        <p class="head">Set pz-godot up first.</p>
+        <p>The models carry no Project Zomboid art. They are textured at runtime from
+        the atlas <em>you</em> build from <em>your own</em> copy of Build&nbsp;42, so run
+        pz-godot's <code>setup.bat</code> before installing these, or everything renders
+        in flat colours.</p>
+      </div>
+
+      <div class="dl-row">
+        <a class="btn primary" href="install/install-models.bat" download>Download install-models.bat</a>
+        <a class="btn" href="install/pz_models_install.py" download>Download pz_models_install.py</a>
+      </div>
+      <p class="count" style="margin:0 0 34px">Put both files in the same folder &mdash; the <code>.bat</code> runs the <code>.py</code> sitting next to it.</p>
+
+      <div class="md" id="install-md"><div class="loading">Loading&hellip;</div></div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------ readme -->
+  <section id="view-readme" class="view">
+    <div class="wrap narrow">
+      <div class="page-head">
+        <h1>Readme</h1>
+        <p>The repository's own <code>README.md</code>, rendered here so there is only one copy of it.</p>
+      </div>
+      <div class="md" id="readme-md"><div class="loading">Loading&hellip;</div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span>Models belong to their authors, each under its own licence. Project Zomboid's art belongs to The Indie Stone and is not in this repository.</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/DevelopmentStatus/pz-godot-models" target="_blank" rel="noopener">Model repo</a>
+    <a href="https://github.com/DevelopmentStatus/pz-godot" target="_blank" rel="noopener">pz-godot</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+"use strict";
+
+// ---------------------------------------------------------------------------
+// One page, five views, no build step.
+//
+//   #/models          the published database, read from index.json
+//   #/m/<sprite_id>   one model, read from entries/<sprite_id>.json
+//   #/install         install/README.md, with download buttons on top
+//   #/readme          README.md
+//
+// Prose lives in the markdown files and nowhere else; this page renders them,
+// so editing a README updates the site. Model facts live in index.json and
+// entries/, which the bot already writes and CI already validates. Nothing in
+// this file needs touching when a model is published.
+//
+// The Discord bot's deep links are the one fixed contract:
+//   ?a=<glb url>[&a_label=..][&b=<glb url>][&b_label=..][&sprite=<id>]
+//   ?sprite=<id> on its own opens that sprite's page.
+// ---------------------------------------------------------------------------
+
+var REPO = "DevelopmentStatus/pz-godot-models";
+var GH = "https://github.com/" + REPO;
+
+// Hosts a ?a= / ?b= model URL may come from. The bot links published models on
+// raw.githubusercontent and staged ones straight off Discord's CDN. Anything
+// else is somebody hand-crafting a link that would look official while showing
+// content this project never approved.
+var ALLOWED_HOSTS = [
+  "raw.githubusercontent.com",
+  "media.githubusercontent.com",
+  "github.com",
+  "cdn.discordapp.com",
+  "media.discordapp.net"
+];
+
+var PAGE_SIZE = 24;
+
+var views = {
+  models:  document.getElementById("view-models"),
+  model:   document.getElementById("view-model"),
+  compare: document.getElementById("view-compare"),
+  install: document.getElementById("view-install"),
+  readme:  document.getElementById("view-readme")
+};
+var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+var el = {
+  modelsBody: document.getElementById("models-body"),
+  modelsToolbar: document.getElementById("models-toolbar"),
+  modelsCount: document.getElementById("models-count"),
+  modelsBlurb: document.getElementById("models-blurb"),
+  search: document.getElementById("search"),
+  modelBody: document.getElementById("model-body"),
+  compareBody: document.getElementById("compare-body"),
+  compareHead: document.getElementById("compare-head")
+};
+
+// ------------------------------------------------------------------ helpers
+
+function h(tag, attrs, children) {
+  var node = document.createElement(tag);
+  if (attrs) {
+    Object.keys(attrs).forEach(function (key) {
+      var value = attrs[key];
+      if (value === null || value === undefined || value === false) return;
+      if (key === "text") node.textContent = value;
+      else if (key === "html") node.innerHTML = value;
+      else if (key === "class") node.className = value;
+      else node.setAttribute(key, value === true ? "" : value);
+    });
+  }
+  (children || []).forEach(function (child) { if (child) node.appendChild(child); });
+  return node;
+}
+
+function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+function bytes(n) {
+  if (typeof n !== "number") return "—";
+  if (n < 1024) return n + " B";
+  if (n < 1048576) return (n / 1024).toFixed(1) + " KB";
+  return (n / 1048576).toFixed(2) + " MB";
+}
+
+function date(iso) {
+  if (!iso) return "—";
+  var d = new Date(iso);
+  return isNaN(d.getTime()) ? String(iso) : d.toISOString().slice(0, 10);
+}
+
+function sheetOf(spriteId) { return String(spriteId).replace(/_\d+$/, ""); }
+
+function safeModelUrl(raw) {
+  if (!raw) return null;
+  var url;
+  try { url = new URL(raw, location.href); } catch (e) { return null; }
+  if (url.origin === location.origin) return url.href;
+  if (url.protocol !== "https:") return null;
+  return ALLOWED_HOSTS.indexOf(url.hostname) === -1 ? null : url.href;
+}
+
+function getJSON(path) {
+  return fetch(path, { cache: "no-cache" }).then(function (res) {
+    if (!res.ok) throw new Error(path + " — HTTP " + res.status);
+    return res.json();
+  });
+}
+
+// ------------------------------------------------------------- model viewer
+
+function viewer(src, opts) {
+  opts = opts || {};
+  var stage = h("div", { class: "stage" });
+  if (opts.label) {
+    stage.appendChild(h("div", { class: "pane-label " + (opts.labelClass || "a"), text: opts.label }));
+  }
+
+  var error = h("div", { class: "viewer-error" });
+  var mv = document.createElement("model-viewer");
+  mv.setAttribute("src", src);
+  mv.setAttribute("alt", opts.alt || "3D model");
+  mv.setAttribute("camera-controls", "");
+  mv.setAttribute("touch-action", "pan-y");
+  mv.setAttribute("shadow-intensity", "1");
+  mv.setAttribute("shadow-softness", "0.9");
+  mv.setAttribute("exposure", "1.05");
+  mv.setAttribute("environment-image", "neutral");
+  mv.setAttribute("crossorigin", "anonymous");
+  mv.setAttribute("interaction-prompt", "none");
+  if (opts.autoRotate !== false) {
+    mv.setAttribute("auto-rotate", "");
+    mv.setAttribute("auto-rotate-delay", "1200");
+  }
+  mv.addEventListener("error", function (event) {
+    error.style.display = "block";
+    error.textContent = "Could not load this model" +
+      (event.detail && event.detail.type ? " (" + event.detail.type + ")" : "") + ".";
+  });
+
+  stage.appendChild(mv);
+  stage.appendChild(error);
+  return { stage: stage, mv: mv };
+}
+
+function resetCamera(mv) {
+  mv.cameraOrbit = "auto auto auto";
+  mv.cameraTarget = "auto auto auto";
+  mv.fieldOfView = "auto";
+  if (mv.jumpCameraToGoal) mv.jumpCameraToGoal();
+}
+
+function viewerControls(mv) {
+  var reset = h("button", { class: "btn small", text: "Reset view" });
+  reset.addEventListener("click", function () { resetCamera(mv); });
+
+  var rotate = h("button", { class: "btn small", text: "Auto-rotate", "aria-pressed": "true" });
+  rotate.addEventListener("click", function () {
+    var on = rotate.getAttribute("aria-pressed") !== "true";
+    rotate.setAttribute("aria-pressed", String(on));
+    if (on) mv.setAttribute("auto-rotate", "");
+    else mv.removeAttribute("auto-rotate");
+  });
+
+  var full = h("button", { class: "btn small", text: "Fullscreen" });
+  full.addEventListener("click", function () {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (mv.parentElement.requestFullscreen) mv.parentElement.requestFullscreen();
+  });
+
+  return h("div", { class: "stage-bar" }, [reset, rotate, full]);
+}
+
+// ------------------------------------------------------------------ routing
+
+var indexPromise = null;
+function loadIndex() {
+  if (!indexPromise) indexPromise = getJSON("index.json");
+  return indexPromise;
+}
+
+var TAB_FOR = { models: "models", model: "models", compare: "models", install: "install", readme: "readme" };
+
+function show(name) {
+  Object.keys(views).forEach(function (key) {
+    views[key].classList.toggle("active", key === name);
+  });
+  tabs.forEach(function (tab) {
+    if (tab.dataset.route === TAB_FOR[name]) tab.setAttribute("aria-current", "page");
+    else tab.removeAttribute("aria-current");
+  });
+}
+
+function route() {
+  var params = new URLSearchParams(location.search);
+
+  // Legacy bot deep links win over any hash.
+  if (params.get("a")) return renderCompare(params);
+  if (params.get("sprite") && !location.hash) {
+    location.replace("#/m/" + encodeURIComponent(params.get("sprite")));
+    return;
+  }
+
+  var parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+
+  if (parts[0] === "m" && parts[1]) return renderModel(decodeURIComponent(parts[1]));
+  if (parts[0] === "install") { show("install"); return renderMarkdown("install/README.md", "install-md", "install"); }
+  if (parts[0] === "readme") { show("readme"); return renderMarkdown("README.md", "readme-md", ""); }
+  return renderModels();
+}
+
+function go(target) { location.hash = "#/" + target; }
+
+document.addEventListener("click", function (event) {
+  var target = event.target.closest ? event.target.closest("[data-route]") : null;
+  if (!target) return;
+  event.preventDefault();
+  go(target.dataset.route);
+});
+
+window.addEventListener("hashchange", route);
+
+// -------------------------------------------------------------- models view
+
+var models = { rows: null, shown: PAGE_SIZE, query: "" };
+
+function renderModels() {
+  show("models");
+  document.title = "pz-godot models";
+  if (models.rows) return paintModels();
+
+  loadIndex().then(function (index) {
+    var rows = (index && index.models) || {};
+    models.rows = Object.keys(rows).sort().map(function (id) {
+      var row = rows[id] || {};
+      return {
+        id: id,
+        sheet: sheetOf(id),
+        version: row.version,
+        license: row.license,
+        size: row.size,
+        path: row.path || ("models/" + id + ".glb")
+      };
+    });
+    if (index && index.generated_at) {
+      el.modelsBlurb.textContent =
+        "3D replacements for Project Zomboid sprites. Click one to look at it. " +
+        "Last published " + date(index.generated_at) + ".";
+    }
+    paintModels();
+  }).catch(function (err) {
+    clear(el.modelsBody);
+    el.modelsBody.appendChild(emptyState(
+      "Could not read the database",
+      String(err.message || err),
+      [linkButton("Open index.json on GitHub", GH + "/blob/main/index.json", true)]
+    ));
+  });
+}
+
+function paintModels() {
+  var rows = models.rows || [];
+  clear(el.modelsBody);
+
+  if (!rows.length) {
+    el.modelsToolbar.hidden = true;
+    el.modelsBody.appendChild(emptyState(
+      "No models published yet",
+      "Sprites are claimed, modelled and voted on through Discord, and the bot " +
+      "publishes them here once an admin approves them. Nothing has landed yet.",
+      [routeButton("How it works", "readme", true), linkButton("Open the repo", GH)]
+    ));
+    return;
+  }
+
+  el.modelsToolbar.hidden = false;
+  var query = models.query.trim().toLowerCase();
+  var matches = query
+    ? rows.filter(function (row) { return row.id.indexOf(query) !== -1; })
+    : rows;
+
+  el.modelsCount.textContent = query
+    ? matches.length + " of " + rows.length
+    : rows.length + " model" + (rows.length === 1 ? "" : "s");
+
+  if (!matches.length) {
+    el.modelsBody.appendChild(emptyState(
+      "Nothing matches that",
+      "Sprite ids look like fixtures_counters_01_67 — try part of a sheet name.",
+      []
+    ));
+    return;
+  }
+
+  var visible = matches.slice(0, models.shown);
+  var grid = h("div", { class: "grid" });
+  visible.forEach(function (row) { grid.appendChild(modelCard(row)); });
+  el.modelsBody.appendChild(grid);
+
+  if (matches.length > visible.length) {
+    var more = h("button", {
+      class: "btn",
+      text: "Show more (" + (matches.length - visible.length) + " left)"
+    });
+    more.addEventListener("click", function () {
+      models.shown += PAGE_SIZE;
+      paintModels();
+    });
+    el.modelsBody.appendChild(h("div", { class: "more" }, [more]));
+  }
+}
+
+function modelCard(row) {
+  var mv = document.createElement("model-viewer");
+  mv.setAttribute("src", row.path);
+  mv.setAttribute("alt", row.id);
+  mv.setAttribute("loading", "lazy");
+  mv.setAttribute("shadow-intensity", "0.8");
+  mv.setAttribute("environment-image", "neutral");
+  mv.setAttribute("interaction-prompt", "none");
+  mv.setAttribute("auto-rotate", "");
+  mv.setAttribute("auto-rotate-delay", "0");
+  mv.setAttribute("rotation-per-second", "18deg");
+  mv.setAttribute("disable-zoom", "");
+
+  var card = h("button", { class: "card", type: "button" }, [
+    h("div", { class: "thumb" }, [mv]),
+    h("div", { class: "meta" }, [
+      h("div", { class: "name", text: row.id }),
+      h("div", {
+        class: "sub",
+        text: [row.sheet, row.version ? "v" + row.version : null, row.license, bytes(row.size)]
+          .filter(Boolean).join(" · ")
+      })
+    ])
+  ]);
+  card.addEventListener("click", function () { go("m/" + encodeURIComponent(row.id)); });
+  return card;
+}
+
+el.search.addEventListener("input", function () {
+  models.query = el.search.value;
+  models.shown = PAGE_SIZE;
+  paintModels();
+});
+
+// -------------------------------------------------------- model detail view
+
+function renderModel(spriteId) {
+  show("model");
+  document.title = spriteId + " — pz-godot models";
+  clear(el.modelBody);
+  el.modelBody.appendChild(h("div", { class: "loading", text: "Loading " + spriteId + "…" }));
+
+  getJSON("entries/" + spriteId + ".json").then(function (entry) {
+    paintModel(spriteId, entry);
+  }).catch(function () {
+    clear(el.modelBody);
+    el.modelBody.appendChild(emptyState(
+      "No model for that sprite",
+      "Nothing is published for " + spriteId + ", or it is spelled differently. " +
+      "Every published model is on the models page.",
+      [routeButton("Browse the models", "models", true)]
+    ));
+  });
+}
+
+function factRows(pairs) {
+  var dl = h("dl", {});
+  pairs.forEach(function (pair) {
+    if (pair[1] === null || pair[1] === undefined) return;
+    dl.appendChild(h("div", { class: "row" }, [
+      h("dt", { text: pair[0] }),
+      pair[2] ? h("dd", {}, [pair[2]]) : h("dd", { text: String(pair[1]) })
+    ]));
+  });
+  return dl;
+}
+
+function paintModel(spriteId, entry) {
+  var current = entry.current || {};
+  var v = viewer("models/" + spriteId + ".glb", { alt: spriteId });
+  v.stage.appendChild(viewerControls(v.mv));
+
+  var facts = h("div", { class: "facts" });
+
+  facts.appendChild(h("h2", { text: "Model" }));
+  facts.appendChild(factRows([
+    ["Sprite", spriteId],
+    ["Sheet", entry.sheet || sheetOf(spriteId)],
+    ["Version", current.version ? "v" + current.version : "—"],
+    ["Licence", current.license || "—"],
+    ["Size", bytes(current.size)],
+    ["Approved", date(current.approved_at)]
+  ]));
+
+  var author = current.author || {};
+  if (author.discord_name) {
+    facts.appendChild(h("h2", { text: "Author" }));
+    facts.appendChild(factRows([
+      ["Discord", author.discord_name],
+      ["GitHub", author.github || null, author.github ? h("a", {
+        href: "https://github.com/" + author.github,
+        target: "_blank", rel: "noopener", text: author.github
+      }) : null]
+    ]));
+  }
+
+  facts.appendChild(h("h2", { text: "Textured from" }));
+  var bindings = current.texture_bindings || [];
+  if (bindings.length) {
+    var chips = h("div", { class: "chips" });
+    bindings.forEach(function (id) { chips.appendChild(h("span", { class: "chip", text: id })); });
+    facts.appendChild(chips);
+    facts.appendChild(h("p", {
+      class: "count",
+      style: "margin:9px 0 0",
+      text: "Resolved at runtime against the atlas you built yourself. No art ships inside the model."
+    }));
+  } else {
+    facts.appendChild(h("p", { class: "count", style: "margin:0", text: "No sprite bindings declared." }));
+  }
+
+  var override = current.override || {};
+  if (override.offset) {
+    facts.appendChild(h("h2", { text: "Placement" }));
+    facts.appendChild(factRows([
+      ["Offset", "[" + override.offset.join(", ") + "]"],
+      ["Rotation", override.rotation + "°"],
+      ["Scale", String(override.scale)]
+    ]));
+  }
+
+  var history = entry.history || [];
+  if (history.length) {
+    facts.appendChild(h("h2", { text: "Earlier versions" }));
+    var list = h("ul", { class: "history" });
+    history.forEach(function (old) {
+      list.appendChild(h("li", {}, [
+        h("a", {
+          href: "https://api.github.com/repos/" + REPO + "/git/blobs/" + old.blob_sha,
+          target: "_blank", rel: "noopener", text: "v" + old.version
+        }),
+        h("span", { class: "when", text: date(old.superseded_at || old.approved_at) })
+      ]));
+    });
+    facts.appendChild(list);
+  }
+
+  facts.appendChild(h("div", { class: "actions" }, [
+    h("a", { class: "btn primary", href: "models/" + spriteId + ".glb", download: true, text: "Download .glb" }),
+    h("a", {
+      class: "btn quiet",
+      href: GH + "/blob/main/entries/" + spriteId + ".json",
+      target: "_blank", rel: "noopener", text: "Entry JSON ↗"
+    })
+  ]));
+
+  clear(el.modelBody);
+  el.modelBody.appendChild(h("div", { class: "page-head" }, [
+    h("h1", { class: "mono", text: spriteId }),
+    h("p", { text: "Stands in for this sprite when pz-godot renders the world." })
+  ]));
+  el.modelBody.appendChild(h("div", { class: "detail" }, [v.stage, facts]));
+}
+
+// ------------------------------------------------------------- compare view
+
+function renderCompare(params) {
+  show("compare");
+  clear(el.compareBody);
+  clear(el.compareHead);
+
+  var sprite = params.get("sprite");
+  var wantsTwo = !!params.get("b");
+  var aUrl = safeModelUrl(params.get("a"));
+  var bUrl = wantsTwo ? safeModelUrl(params.get("b")) : null;
+  var aLabel = params.get("a_label") || "Current";
+  var bLabel = params.get("b_label") || "Challenger";
+
+  document.title = (sprite || "Model viewer") + " — pz-godot models";
+  el.compareHead.appendChild(h("h1", { class: sprite ? "mono" : "", text: sprite || "Model viewer" }));
+  el.compareHead.appendChild(h("p", { text: wantsTwo ? aLabel + " vs " + bLabel : aLabel }));
+
+  var linkBtn = document.getElementById("cmp-link");
+  var rotateBtn = document.getElementById("cmp-rotate");
+  var resetBtn = document.getElementById("cmp-reset");
+
+  if (!aUrl) {
+    el.compareBody.style.gridTemplateColumns = "1fr";
+    linkBtn.hidden = true;
+    rotateBtn.hidden = true;
+    resetBtn.hidden = true;
+    el.compareBody.appendChild(emptyState(
+      "That model link cannot be opened here",
+      "Models are only loaded from this site, GitHub or Discord. This link points " +
+      "somewhere else, so it is not shown.",
+      [routeButton("Browse the models", "models", true)]
+    ));
+    return;
+  }
+
+  resetBtn.hidden = false;
+  rotateBtn.hidden = false;
+  el.compareBody.style.gridTemplateColumns = wantsTwo && bUrl ? "" : "1fr";
+
+  // Side by side, both models hold still by default: a spinning pair is harder
+  // to judge than a fixed one, and two turntables running independently drift
+  // out of step with each other within a second.
+  var a = viewer(aUrl, {
+    label: wantsTwo ? aLabel : null, labelClass: "a", alt: aLabel, autoRotate: !wantsTwo
+  });
+  el.compareBody.appendChild(a.stage);
+
+  var b = null;
+  if (wantsTwo && bUrl) {
+    b = viewer(bUrl, { label: bLabel, labelClass: "b", alt: bLabel, autoRotate: false });
+    el.compareBody.appendChild(b.stage);
+  } else if (wantsTwo) {
+    el.compareBody.appendChild(emptyState(
+      "The second model link cannot be opened here",
+      "Models are only loaded from this site, GitHub or Discord.", []
+    ));
+  }
+
+  linkBtn.hidden = !b;
+
+  var panes = b ? [a.mv, b.mv] : [a.mv];
+
+  resetBtn.onclick = function () { panes.forEach(resetCamera); };
+
+  rotateBtn.setAttribute("aria-pressed", String(!wantsTwo));
+  rotateBtn.onclick = function () {
+    var on = rotateBtn.getAttribute("aria-pressed") !== "true";
+    rotateBtn.setAttribute("aria-pressed", String(on));
+    panes.forEach(function (mv) {
+      if (on) mv.setAttribute("auto-rotate", "");
+      else mv.removeAttribute("auto-rotate");
+    });
+  };
+
+  if (b) {
+    var linked = true;
+    linkBtn.setAttribute("aria-pressed", "true");
+    linkBtn.onclick = function () {
+      linked = !linked;
+      linkBtn.setAttribute("aria-pressed", String(linked));
+    };
+
+    // Only a hand on the mouse moves the other pane. Mirroring every
+    // camera-change instead would have each pane answering the other's move
+    // with a move of its own, forever, and take the tab down with it.
+    var mirror = function (from, to) {
+      return function (event) {
+        if (!linked) return;
+        if (!event.detail || event.detail.source !== "user-interaction") return;
+        to.cameraOrbit = from.getCameraOrbit().toString();
+        to.fieldOfView = from.getFieldOfView() + "deg";
+        if (to.jumpCameraToGoal) to.jumpCameraToGoal();
+      };
+    };
+    a.mv.addEventListener("camera-change", mirror(a.mv, b.mv));
+    b.mv.addEventListener("camera-change", mirror(b.mv, a.mv));
+  }
+}
+
+// ----------------------------------------------------------------- markdown
+
+var mdLoaded = {};
+
+function renderMarkdown(path, targetId, basePath) {
+  if (mdLoaded[path]) return;
+  var target = document.getElementById(targetId);
+
+  fetch(path, { cache: "no-cache" }).then(function (res) {
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.text();
+  }).then(function (text) {
+    // Each view supplies its own heading, so drop the document's leading H1.
+    text = text.replace(/^#\s+.*\n+/, "");
+    clear(target);
+    if (window.marked && window.marked.parse) {
+      target.innerHTML = window.marked.parse(text);
+      dressMarkdown(target, basePath);
+    } else {
+      target.appendChild(h("pre", {}, [h("code", { text: text })]));
+    }
+    mdLoaded[path] = true;
+  }).catch(function (err) {
+    clear(target);
+    target.appendChild(emptyState(
+      "Could not load " + path,
+      String(err.message || err),
+      [linkButton("Read it on GitHub", GH + "/blob/main/" + path, true)]
+    ));
+  });
+}
+
+// Relative links in the markdown are repository paths. On GitHub they open the
+// file; here they should do the same rather than serving raw bytes.
+function dressMarkdown(root, basePath) {
+  Array.prototype.forEach.call(root.querySelectorAll("a[href]"), function (a) {
+    var href = a.getAttribute("href");
+    if (!href || href.charAt(0) === "#") return;
+    if (/^[a-z][a-z0-9+.-]*:/i.test(href)) {
+      // A link back to this site stays in this tab, so the README's own
+      // pointer at the install page behaves like the Install button does.
+      var absolute;
+      try { absolute = new URL(href); } catch (e) { absolute = null; }
+      if (!absolute || absolute.origin !== location.origin) {
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      return;
+    }
+    var clean = (basePath ? basePath + "/" : "") + href.replace(/^\.\//, "");
+    var isDir = clean.charAt(clean.length - 1) === "/";
+    a.href = GH + (isDir ? "/tree/main/" : "/blob/main/") + clean.replace(/\/$/, "");
+    a.target = "_blank";
+    a.rel = "noopener";
+  });
+
+  Array.prototype.forEach.call(root.querySelectorAll("h2, h3"), function (heading) {
+    heading.id = heading.textContent.toLowerCase().replace(/[^\w]+/g, "-").replace(/^-+|-+$/g, "");
+  });
+}
+
+// --------------------------------------------------------------- small bits
+
+function emptyState(title, body, buttons) {
+  return h("div", { class: "empty" }, [
+    h("div", {
+      html: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" ' +
+            'stroke-linejoin="round" aria-hidden="true">' +
+            '<path d="M16 3 28 9.5v13L16 29 4 22.5v-13z"/>' +
+            '<path d="M4 9.5 16 16l12-6.5M16 16v13"/></svg>'
+    }),
+    h("h2", { text: title }),
+    h("p", { text: body }),
+    h("div", { class: "row" }, buttons || [])
+  ]);
+}
+
+function routeButton(text, target, primary) {
+  return h("button", { class: "btn" + (primary ? " primary" : ""), "data-route": target, text: text });
+}
+
+function linkButton(text, href, primary) {
+  return h("a", {
+    class: "btn" + (primary ? " primary" : ""),
+    href: href, target: "_blank", rel: "noopener", text: text
+  });
+}
+
+route();
+
+})();
+</script>
+</body>
+</html>

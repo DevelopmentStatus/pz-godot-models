@@ -3,7 +3,7 @@
 One `.json` per sprite: its current model, and every version it has ever had.
 
 Shaped by `../schema/entry.schema.json`, enforced by `../tools/validate_repo.py`
-in CI. `history` is append-only — reverting to an old model re-publishes that
+in CI. `history` is append-only. Reverting to an old model re-publishes that
 blob as a *new* version rather than rewriting the past, so the record of what was
 live and when is never lost.
 
