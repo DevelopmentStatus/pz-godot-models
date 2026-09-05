@@ -3,12 +3,14 @@
 Installs the community models into a pz-godot checkout, for anyone who wants
 them without cloning the game repo's tooling.
 
-`install-models.bat` is the way in on Windows. Three ways to use it:
+`install-models.bat` is the way in on Windows.
 
-1. **Drag your pz-godot folder onto `install-models.bat`.**
-2. Run it with the path: `install-models.bat C:\path\to\pz-godot`
-3. Drop this whole `install/` folder inside a pz-godot checkout and
-   double-click. It finds the checkout by walking up from where it sits.
+1. **Drag `install-models.bat` into your pz-godot folder (next to
+   `project.godot`) and double-click it.** It finds the checkout by walking
+   up from where it sits, and fetches its own `pz_models_install.py` if that
+   isn't sitting next to it - so the one file is all you need.
+2. Or drag your pz-godot folder onto `install-models.bat` instead.
+3. Or run it with the path: `install-models.bat C:\path\to\pz-godot`
 
 Or call the script directly, on any platform:
 

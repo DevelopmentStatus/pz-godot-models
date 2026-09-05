@@ -2,12 +2,13 @@
 REM ---------------------------------------------------------------------
 REM  Installs the community 3D models into a pz-godot checkout.
 REM
-REM  Three ways to use this:
+REM  The normal way: drag this one file into your pz-godot folder (next to
+REM  project.godot) and double-click it. It finds the checkout on its own,
+REM  and fetches its own installer script if it isn't sitting next to one.
 REM
-REM    1. Drag your pz-godot folder onto this file.
-REM    2. Run it with the path:  install-models.bat C:\path\to\pz-godot
-REM    3. Drop this whole install\ folder inside a pz-godot checkout and
-REM       double-click it - it will find the checkout on its own.
+REM  Also works:
+REM    - Drag your pz-godot folder onto this file instead.
+REM    - Run it with the path:  install-models.bat C:\path\to\pz-godot
 REM
 REM  The models contain NO Project Zomboid art. Each names the sprite it
 REM  wants pixels from, and the game textures it at runtime from the atlas
@@ -19,7 +20,7 @@ REM  downloaded, each is checked against its SHA-256 before being written,
 REM  and --prune removes exactly what was installed - putting back any model
 REM  or mesh_overrides.json rule of your own that it had to move aside.
 REM ---------------------------------------------------------------------
-setlocal
+setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
 where python >nul 2>nul
@@ -35,12 +36,42 @@ if errorlevel 1 (
     exit /b 1
 )
 
+set SCRIPT=pz_models_install.py
+if not exist "%SCRIPT%" (
+    REM Dragged in on its own, with no pz_models_install.py beside it - fetch
+    REM the one it belongs with rather than making the user keep a folder
+    REM together. Cached in TEMP so a re-run does not need a connection twice.
+    set SCRIPT=%TEMP%\pz_models_install.py
+    where curl >nul 2>nul
+    if errorlevel 1 (
+        echo.
+        echo   ERROR: pz_models_install.py is not next to this file, and curl
+        echo   is not available to fetch it.
+        echo.
+        echo   Get the full install\ folder from
+        echo   https://github.com/DevelopmentStatus/pz-godot-models instead.
+        echo.
+        pause
+        exit /b 1
+    )
+    echo   Fetching the installer script...
+    curl -fsSL -o "!SCRIPT!" "https://raw.githubusercontent.com/DevelopmentStatus/pz-godot-models/main/install/pz_models_install.py"
+    if errorlevel 1 (
+        echo.
+        echo   ERROR: could not download pz_models_install.py. Check your
+        echo   connection and try again.
+        echo.
+        pause
+        exit /b 1
+    )
+)
+
 if "%~1"=="" (
     REM No path given - let the script walk up from here looking for
-    REM project.godot, which works when this folder sits inside a checkout.
-    python pz_models_install.py
+    REM project.godot, which works when this file sits inside a checkout.
+    python "%SCRIPT%"
 ) else (
-    python pz_models_install.py --repo-root "%~1"
+    python "%SCRIPT%" --repo-root "%~1"
 )
 set EXITCODE=%ERRORLEVEL%
 

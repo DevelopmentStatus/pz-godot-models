@@ -43,16 +43,13 @@ collides with a PZ sheet or sprite id is refused outright.
 ## Installing the models
 
 The [install page](https://developmentstatus.github.io/pz-godot-models/#/install)
-hands you the two files directly. Otherwise download this repository's
-[`install/`](install/) folder, then either drag your pz-godot folder onto
-`install-models.bat`, or run it with the path:
+hands you the file directly: download `install-models.bat`, drag it into
+your pz-godot folder (next to `project.godot`), and double-click it. It
+finds the checkout on its own and fetches its own `pz_models_install.py` if
+that isn't already sitting next to it.
 
-```
-install-models.bat C:\path\to\pz-godot
-```
-
-Dropping the whole `install/` folder inside a pz-godot checkout also
-works; it finds the checkout on its own.
+Dragging your pz-godot folder onto `install-models.bat` instead, or running
+it with the path (`install-models.bat C:\path\to\pz-godot`), also works.
 
 pz-godot also ships its own copy as `tools/install_models.bat`, which
 needs no arguments. Use that one if you already have the game repo cloned.
